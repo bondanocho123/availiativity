@@ -1,22 +1,22 @@
-import { useState } from "react";
-import { Menu } from "lucide-react";
+// app/components/Navbar.jsx atau di layout.js
+import NavigationMenuDemo from "@/components/NavigationMenuDemo";
+import {Button} from "@/components/ui/button";
+import {LogInIcon, UserPlus} from "lucide-react";
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
+export default function Navbar() {
   return (
-    <nav className="bg-background border-b border-border shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          {/* Logo */}
-          <div className="flex-shrink-0 flex items-center gap-2">
-            <img src="/Dev..png" alt="Logo CariLaptop" className="h-20 w-20 object-contain" />
-            <img src="/carilaptop.com.png" alt="Logo CariLaptop" className="h-24 w-auto object-contain"/>
-          </div>
+    <nav className="px-5 fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg bg-teal-500 supports-[backdrop-filter]:bg-teal-500">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="text-xl font-bold text-white">
+            Availiativity
         </div>
+        {/* <NavigationMenuDemo /> */}
+        <div className="space-x-5">
+            <Button variant="default" className="font-bold text-white bg-emerald-500"><LogInIcon /> Login</Button>
+            <Button variant="neutral" className="text-teal-500 font-bold"><UserPlus /> Registrasi</Button>
+        </div>
+        
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}
