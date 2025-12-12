@@ -13,7 +13,7 @@ export default function Footer() {
         <p className="text-md">Bagikan link produk ke berbagai sosial media dengan satu kali klik, dan kembali rebahan.</p>
         <div className="flex items-center justify-center space-x-8 text-sm">
             <div><Link href="/privacypolicy">Privacy Policy</Link></div>
-            <div>Term of Condition</div>
+            <div><Link href="/termofcondition">Term of Condition</Link></div>
         </div>
       </div>
     </footer>
