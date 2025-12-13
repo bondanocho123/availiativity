@@ -2,6 +2,7 @@
 import NavigationMenuDemo from "@/components/NavigationMenuDemo";
 import {Button} from "@/components/ui/button";
 import {LogInIcon, UserPlus} from "lucide-react";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -12,8 +13,8 @@ export default function Navbar() {
         </div>
         {/* <NavigationMenuDemo /> */}
         <div className="space-x-5">
-            <Button variant="default" className="font-bold text-white bg-emerald-500"><LogInIcon /> Login</Button>
-            <Button variant="neutral" className="text-teal-500 font-bold"><UserPlus /> Registrasi</Button>
+            <Link href="/login"><Button variant="default" className="font-bold text-white bg-emerald-500"><LogInIcon /> Login</Button></Link>
+            <Link href="/register"><Button variant="neutral" className="text-teal-500 font-bold"><UserPlus /> Registrasi</Button></Link>
         </div>
         
       </div>
