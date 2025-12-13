@@ -4,7 +4,7 @@ import {Button} from "@/components/ui/button";
 import {LogInIcon, UserPlus} from "lucide-react";
 import Link from "next/link";
 
-export default function Navbar() {
+export default function NavBar() {
   return (
     <nav className="px-5 fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg bg-teal-500 supports-[backdrop-filter]:bg-teal-500">
       <div className="container flex h-16 items-center justify-between">
