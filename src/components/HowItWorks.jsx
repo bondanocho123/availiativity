@@ -30,29 +30,29 @@ export default function HowItWorks() {
                     </div>
 
                     <div className="flex justify-center order-1 sm:order-1 lg:order-2">
-                        <div class="relative w-full max-w-sm mx-auto">
+                        <div className="relative w-full max-w-sm mx-auto">
 
-                            <div class="absolute inset-0 z-0 opacity-80 animate-bounce">
-                                <div class="mx-auto w-full h-full max-w-sm rounded-md p-4">
-                                    <div class="flex animate-pulse space-x-4">
-                                        <div class="flex-1 space-y-6 py-1">
-                                            <div class="h-2 rounded bg-gray-200"></div>
-                                            <div class="space-y-3">
-                                                <div class="grid grid-cols-3 gap-4">
-                                                <div class="col-span-2 h-2 rounded bg-gray-200"></div>
-                                                <div class="col-span-1 h-2 rounded bg-gray-200"></div>
+                            <div className="absolute inset-0 z-0 opacity-80 animate-bounce">
+                                <div className="mx-auto w-full h-full max-w-sm rounded-md p-4">
+                                    <div className="flex animate-pulse space-x-4">
+                                        <div className="flex-1 space-y-6 py-1">
+                                            <div className="h-2 rounded bg-gray-200"></div>
+                                            <div className="space-y-3">
+                                                <div className="grid grid-cols-3 gap-4">
+                                                <div className="col-span-2 h-2 rounded bg-gray-200"></div>
+                                                <div className="col-span-1 h-2 rounded bg-gray-200"></div>
                                                 </div>
-                                                <div class="h-2 rounded bg-gray-200"></div>
+                                                <div className="h-2 rounded bg-gray-200"></div>
                                             </div>
                                         </div>
-                                        <div class="size-10 rounded-full bg-gray-200"></div>
+                                        <div className="size-10 rounded-full bg-gray-200"></div>
                                     </div>
                                 </div>
                             </div>
 
                             <img
                                 src="/shop.svg"
-                                class="relative z-10 w-full"
+                                className="relative z-10 w-full"
                             />
 
                         </div>

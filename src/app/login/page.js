@@ -25,9 +25,14 @@ import { FormSchemaLogin } from "./formLoginSchema"
 import Footer from "@/components/Footer"
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux"
+import { login } from "@/store/slices/authSlice"
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-    const [loading, setLoading] = React.useState(false);
+    const router = useRouter()
+    const { loading } = useSelector((state) => state.auth);
 
     const form = useForm({
         resolver : zodResolver(FormSchemaLogin),
@@ -44,17 +49,31 @@ export default function LoginPage() {
         });
     };
 
+    const dispatch = useDispatch();
+
     const onSubmit = async (data) => {
         try {
-            console.log("Form data submitted:", data);
-            // Simulate successful login
+            const result = await dispatch(login(data)).unwrap();
+
+            if (result.success === false) {
+                toast.error(result.message);
+                return;
+            } 
+
+            if (result.statusCode && result.statusCode > 200){
+                toast.error(result.message);
+                return;
+            }
+
+            router.push("/admin")
+            toast.success("Berhasil login!");
+            
         } catch (error) {
-            // Simulate backend validation errors
-            const backendErrors = {
-                email: ["Email tidak ditemukan."],
-                password: ["Password salah."]
-            };
-            setFieldErrorsFromBackend(backendErrors);
+            toast.error("Gagal login. Silakan periksa kembali kredensial Anda.");
+
+            if (error.errors) {
+                setFieldErrorsFromBackend(error.errors);
+            }
         }
     }
 
@@ -69,7 +88,7 @@ export default function LoginPage() {
                         </CardHeader>
                         <CardContent className="space-y-3">
                             <Form {...form}>
-                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                                <form onSubmit={form.handleSubmit(onSubmit)} className={`space-y-6 ${loading ? "opacity-50 pointer-events-none" : ""}`}>
                                     <FormField
                                         control={form.control}
                                         name="email"
