@@ -8,12 +8,16 @@ const initialState = {
 };
 
 
-export const fecthMe = createAsyncThunk("api/accounts/me", async (_, thunkAPI) => {
+export const fetchMe = createAsyncThunk("api/accounts/me", async (_, thunkAPI) => {
+        const token = localStorage.getItem("access_token");
+
         try
         {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/accounts/me/`, {
                 method: "GET",
-                include : "credentials",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             });
 
             if (!res.ok) {
@@ -21,6 +25,8 @@ export const fecthMe = createAsyncThunk("api/accounts/me", async (_, thunkAPI) =
             }
 
             const data = await res.json();
+
+            localStorage.setItem("user_info", JSON.stringify(data.data));
             return data;
         } 
         catch (error)
@@ -37,6 +43,7 @@ export const login = createAsyncThunk("api/accounts/login-email", async ({email,
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
             body: JSON.stringify({ email, password }),
         });
 
@@ -46,6 +53,7 @@ export const login = createAsyncThunk("api/accounts/login-email", async ({email,
 
 
         const data = await res.json();
+
         return data;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.message);
@@ -81,8 +89,8 @@ export const register = createAsyncThunk("api/accounts/register/", async ({
             throw new Error("Register gagal");
         }
 
-
         const data = await res.json();
+
         return data;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.message);
@@ -93,7 +101,7 @@ export const logout = createAsyncThunk("api/accounts/logout", async (_, thunkAPI
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/accounts/logout/`, {
             method: "POST",
-            include: "credentials",
+            credentials: "include"
         });
         if (!res.ok) {
             throw new Error("Logout gagal");
@@ -112,16 +120,16 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         // Add async thunk reducers here if needed
         builder
-            .addCase(fecthMe.pending, (state) => {
+            .addCase(fetchMe.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fecthMe.fulfilled, (state, action) => {
+            .addCase(fetchMe.fulfilled, (state, action) => {
                 state.loading = false;
                 state.isAuthenticated = true;
-                state.user = action.payload;
+                state.user = action.payload.data;
             })
-            .addCase(fecthMe.rejected, (state, action) => {
+            .addCase(fetchMe.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
@@ -133,7 +141,7 @@ const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.loading = false;
                 state.isAuthenticated = true;
-                state.user = action.payload;
+                state.user = action.payload.data;
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;
@@ -147,7 +155,7 @@ const authSlice = createSlice({
             .addCase(register.fulfilled, (state, action) => {
                 state.loading = false;
                 state.isAuthenticated = true;
-                state.user = action.payload;
+                state.user = action.payload.data;
             })
             .addCase(register.rejected, (state, action) => {
                 state.loading = false;

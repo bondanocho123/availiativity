@@ -65,6 +65,9 @@ export default function LoginPage() {
                 return;
             }
 
+            localStorage.setItem("access_token", result.data.access);
+            localStorage.setItem("refresh_token", result.data.refresh);
+
             router.push("/admin")
             toast.success("Berhasil login!");
             

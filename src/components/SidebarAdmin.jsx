@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { use } from "react"
 import {
   AudioWaveform,
   BadgeCheck,
@@ -24,6 +24,7 @@ import {
   Sparkles,
   SquareTerminal,
   Trash2,
+  ChartLine
 } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -59,73 +60,74 @@ import {
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useDispatch, useSelector } from "react-redux"
 
 // Sample data
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    { name: "Availiativity", logo: GalleryVerticalEnd, plan: "Enterprise" },
-    { name: "Acme Corp.", logo: AudioWaveform, plan: "Startup" },
-    { name: "Evil Corp.", logo: Command, plan: "Free" },
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        { title: "History", url: "#" },
-        { title: "Starred", url: "#" },
-        { title: "Settings", url: "#" },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        { title: "Genesis", url: "#" },
-        { title: "Explorer", url: "#" },
-        { title: "Quantum", url: "#" },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        { title: "Introduction", url: "#" },
-        { title: "Get Started", url: "#" },
-        { title: "Tutorials", url: "#" },
-        { title: "Changelog", url: "#" },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        { title: "General", url: "#" },
-        { title: "Team", url: "#" },
-        { title: "Billing", url: "#" },
-        { title: "Limits", url: "#" },
-      ],
-    },
-  ],
-  projects: [
-    { name: "Design Engineering", url: "#", icon: Frame },
-    { name: "Sales & Marketing", url: "#", icon: PieChart },
-    { name: "Travel", url: "#", icon: Map },
-  ],
-}
+
 
 export function AppSidebar(props) {
   const { isMobile } = useSidebar()
+  const { loading, user } = useSelector((state) => state.auth);
+  
+  const first_name = user?.first_name;
+  const last_name = user?.last_name;
+  const email = user?.email;
+
+  const data = {
+    user: {
+      name: "shadcn",
+      email: "m@example.com",
+      avatar: "/avatars/shadcn.jpg",
+    },
+    teams: [
+      { name: "Availiativity", logo: GalleryVerticalEnd, plan: "Z-Dev" },
+    ],
+    navMain: [
+      {
+        title: "Produk",
+        url: "#",
+        icon: SquareTerminal,
+        isActive: true,
+        items: [
+          { title: "Tambah Produk", url: "#" },
+          { title: "Daftar Produk", url: "#" },
+        ],
+      },
+      {
+        title: "Broadcast",
+        url: "#",
+        icon: Bot,
+        items: [
+          { title: "Buat Template", url: "#" },
+          { title: "Posting Produk", url: "#" },
+        ],
+      },
+      {
+        title: "Dokumentasi",
+        url: "#",
+        icon: BookOpen,
+        items: [
+          { title: "Pendahuluan", url: "#" },
+          { title: "Cara Memulai", url: "#" },
+          { title: "Cara Penggunaan", url: "#" },
+        ],
+      },
+      {
+        title: "Pengaturan",
+        url: "#",
+        icon: Settings2,
+        items: [
+          { title: "Akun", url: "#" },
+          { title: "Billing", url: "#" },
+        ],
+      },
+    ],
+    projects: [
+      { name: "Saran dan Masukan", url: "#", icon: Frame },
+      { name: "FAQ", url: "#", icon: PieChart },
+    ],
+  }
+
   const [activeTeam, setActiveTeam] = React.useState(data.teams[0])
 
   if (!activeTeam) return null
@@ -142,7 +144,10 @@ export function AppSidebar(props) {
                   className="data-[state=open]:bg-main data-[state=open]:text-main-foreground data-[state=open]:outline-border data-[state=open]:outline-2"
                 >
                   <div className="flex aspect-square size-8 items-center justify-center rounded-base">
-                    <activeTeam.logo className="size-4" />
+                    {/* <activeTeam.logo className="size-4" /> */}
+                    <div className="w-40 h-40 rounded-lg gradient-primary flex items-center justify-center">
+                        <img src="/Dev..png"></img>
+                    </div>
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-heading">{activeTeam.name}</span>
@@ -151,34 +156,6 @@ export function AppSidebar(props) {
                   <ChevronsUpDown className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-base"
-                align="start"
-                side={isMobile ? "bottom" : "right"}
-                sideOffset={4}
-              >
-                <DropdownMenuLabel className="text-sm font-heading">Teams</DropdownMenuLabel>
-                {data.teams.map((team, index) => (
-                  <DropdownMenuItem
-                    key={team.name}
-                    onClick={() => setActiveTeam(team)}
-                    className="gap-2 p-1.5"
-                  >
-                    <div className="flex size-6 items-center justify-center">
-                      <team.logo className="size-4 shrink-0" />
-                    </div>
-                    {team.name}
-                    <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                ))}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="gap-2 p-1.5">
-                  <div className="flex size-6 items-center justify-center">
-                    <Plus className="size-4" />
-                  </div>
-                  <div className="font-base">Add team</div>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -186,8 +163,16 @@ export function AppSidebar(props) {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Platform</SidebarGroupLabel>
+          {/* <SidebarGroupLabel>Platform</SidebarGroupLabel> */}
           <SidebarMenu>
+            <SidebarMenuItem key="analytics">
+                <SidebarMenuButton asChild>
+                  <a href="/dashboard">
+                    <ChartLine />
+                    <span>Analytics</span>
+                  </a>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
             {data.navMain.map((item) => (
               <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
                 <SidebarMenuItem>
@@ -221,7 +206,7 @@ export function AppSidebar(props) {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Projects</SidebarGroupLabel>
+          <SidebarGroupLabel>Bantuan</SidebarGroupLabel>
           <SidebarMenu>
             {data.projects.map((item) => (
               <SidebarMenuItem key={item.name}>
@@ -260,12 +245,6 @@ export function AppSidebar(props) {
                 </DropdownMenu>
               </SidebarMenuItem>
             ))}
-            <SidebarMenuItem>
-              <SidebarMenuButton>
-                <MoreHorizontal />
-                <span>More</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
@@ -281,8 +260,8 @@ export function AppSidebar(props) {
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-heading">{data.user.name}</span>
-                    <span className="truncate text-xs">{data.user.email}</span>
+                    <span className="truncate font-heading">{first_name}</span>
+                    <span className="truncate text-xs">{email}</span>
                   </div>
                   <ChevronsUpDown className="ml-auto size-4" />
                 </SidebarMenuButton>
@@ -300,8 +279,8 @@ export function AppSidebar(props) {
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-heading">{data.user.name}</span>
-                      <span className="truncate text-xs">{data.user.email}</span>
+                      <span className="truncate font-heading">{first_name}</span>
+                      <span className="truncate text-xs">{email}</span>
                     </div>
                   </div>
                 </DropdownMenuLabel>
