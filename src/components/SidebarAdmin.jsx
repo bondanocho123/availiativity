@@ -107,7 +107,7 @@ export function AppSidebar(props) {
         url: "#",
         icon: BookOpen,
         items: [
-          { title: "Pendahuluan", url: "#" },
+          { title: "Pendahuluan", url: "/admin/introduction" },
           { title: "Cara Memulai", url: "#" },
           { title: "Cara Penggunaan", url: "#" },
         ],

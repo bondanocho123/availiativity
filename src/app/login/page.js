@@ -32,7 +32,7 @@ import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
     const router = useRouter()
-    const { loading } = useSelector((state) => state.auth);
+    const { loading, user } = useSelector((state) => state.auth);
 
     const form = useForm({
         resolver : zodResolver(FormSchemaLogin),
@@ -68,7 +68,13 @@ export default function LoginPage() {
             localStorage.setItem("access_token", result.data.access);
             localStorage.setItem("refresh_token", result.data.refresh);
 
-            router.push("/admin")
+            if (user.profile && user.profile.is_verified === false) {
+                router.push("/admin/introduction")
+                toast.success("Berhasil login!");
+                return;
+            }
+
+            router.push("/admin/introduction")
             toast.success("Berhasil login!");
             
         } catch (error) {
