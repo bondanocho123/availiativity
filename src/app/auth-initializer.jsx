@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 export default function AuthInitializer({ children }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { loading, isAuthenticated } = useSelector((state) => state.auth);
+  const { loading, isAuthenticated, user } = useSelector((state) => state.auth);
   const [minLoading, setMinLoading] = useState(true);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function AuthInitializer({ children }) {
   }, [dispatch, router]);
 
   // ⛔ JANGAN redirect di sini
-  if (loading || minLoading) {
+  if ((loading || minLoading) && !isAuthenticated) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-background">
         <div className="relative flex flex-col items-center space-y-8">

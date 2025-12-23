@@ -90,7 +90,7 @@ export function AppSidebar(props) {
         isActive: true,
         items: [
           { title: "Tambah Produk", url: "#" },
-          { title: "Daftar Produk", url: "#" },
+          { title: "Daftar Produk", url: "/admin/product" },
         ],
       },
       {
